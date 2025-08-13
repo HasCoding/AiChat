@@ -1,0 +1,147 @@
+{
+    "/DersIslemleri/dersekle": {
+        "ktype": "personel",
+        "faqs": [
+            {
+                "question": "Ders teklifi nasıl yapılır?",
+                "answer": "Ders teklifi sayfasında (https://ebs.pusula.pau.edu.tr/DersIslemleri/dersekle.aspx) ilgili adımlar açıklanmıştır. Lütfen sayfadaki bilgilere göz atınız."
+            },
+            {
+                "question": "Ders teklifi yapmak için ne tür bilgilere ihtiyacım var?",
+                "answer": "Sayfadaki formu doldurmanız gerekmektedir. Detaylı bilgi için çağrı merkezini aramak yerine sayfayı inceleyebilirsiniz."
+            }
+        ]
+    },
+    "/DersIslemleri/DersTeklifDuzenle": {
+        "ktype": "personel",
+        "faqs": [
+            {
+                "question": "Ders teklifimin adını veya kodunu değiştirebilir miyim?",
+                "answer": "Hayır, girilmiş olan ders tekliflerinin kodu ve ismi haricindeki tüm bilgileri (teorik/pratik saati, amaç ve içeriği gibi) güncelleyebilirsiniz."
+            },
+            {
+                "question": "Ders teklifimde başka neleri güncelleyebilirim?",
+                "answer": "Kodu ve ismi haricinde teorik pratik saatini, amaç ve içeriğini güncelleyebilirsiniz."
+            }
+        ]
+    },
+    "/Mufredat/MufredatDegisiklik": {
+        "ktype": "personel",
+        "faqs": [
+            {
+                "question": "Müfredat nasıl güncellenir?",
+                "answer": "Müfredat değişikliği sayfasında (ebs.pusula.pau.edu.tr/Mufredat/MufredatDegisiklik.aspx) detaylı bir video anlatımı bulunmaktadır. Lütfen videoyu izleyiniz."
+            },
+            {
+                "question": "Derslerin AKTS'si nasıl belirlenir?",
+                "answer": "Derslerin AKTS'leri belirlenirken, dersin üzerine tıklayıp açılan pencereden 'akts iş yükü' sekmesinden iş yüklerini belirlemeniz gerekir. Unutmayın, 26 iş yükü 1 AKTS'ye denk gelmektedir."
+            },
+            {
+                "question": "Dönemlik toplam iş yükü ne kadar olmalı?",
+                "answer": "Her dönem için derslerin iş yüklerinin toplamı 720 olmak zorundadır."
+            }
+        ]
+    },
+    "/Grade/NotSubeSecim": {
+        "ktype": "personel",
+        "faqs": [
+            {
+                "question": "Not girişinde sınav notlarının yüzdelik oranları nasıl belirlenir?",
+                "answer": "Derslerin ara sınav ve final notlarının yüzdelik girişleri eğitim öğretim kılavuzundan yapılmalıdır."
+            },
+            {
+                "question": "Not girişi yapamıyorum, neden olabilir?",
+                "answer": "Sınav tarihinin saati ve tarihi gelmeden not girişi yapmaya çalışıyor olabilirsiniz. Not girişi ancak sınav tarihi ve saati geldiğinde yapılabilir."
+            },
+            {
+                "question": "Ara sınav notlarımı değiştirebilir miyim?",
+                "answer": "Evet, ara sınav notları girildikten sonra değiştirilebilir."
+            },
+            {
+                "question": "Onaylanmış notları nasıl değiştirebilirim?",
+                "answer": "Ara sınav, final ve bütünleme notları onaylandıysa, değişiklik için fakülte sekreteri tarafından kaldırılması gerekmektedir."
+            },
+            {
+                "question": "Notların yüzdelik girişlerini değiştirmek için ne yapmalıyım?",
+                "answer": "https://obis.pusula.pau.edu.tr/Grade/DegerlendirmeYontemiDetaySil.aspx sayfasından değerlendirme yöntemini silebilir ve eğitim öğretim kılavuzundan tekrar giriş yapabilirsiniz. Ancak bu işlem girilmiş olan tüm notları siler ve not giriş işlemleri onaylanmışsa yapılamaz."
+            }
+        ]
+    },
+    "/Danisman/ogrencikatalogtop": {
+        "ktype": "personel",
+        "faqs": [
+            {
+                "question": "Müfredat değişiklikleri öğrencilerin kataloğuna nasıl yansır?",
+                "answer": "Bu sayfada (https://obis.pusula.pau.edu.tr/Danisman/ogrencikatalogtop.aspx) müfredatta yapılmış olan değişiklikler öğrencinin kataloğuna uygulanır. Tamamen kapatılan ya da yeni eklenen dersler sayfanın üst kısmında gözükür."
+            },
+            {
+                "question": "Öğrencilerin kataloglarındaki dersleri toplu olarak silebilir miyim?",
+                "answer": "Evet, buradan öğrencilerin üzerindeki dersleri toplu olarak tamamen silebilirsiniz."
+            },
+            {
+                "question": "Zorunlu veya seçmeli ders yerine yeni ders ekleyebilir miyim?",
+                "answer": "Evet, zorunlu ya da seçmeli ders yerine yeni ders ekleyebilirsiniz."
+            }
+        ]
+    },
+    "/eys/DersOnay/OgretimElemaniDersOnay": {
+        "ktype": "personel",
+        "faqs": [
+            {
+                "question": "Ders programını neden onaylamam gerekiyor?",
+                "answer": "Vermiş olduğunuz derslerin ücretlerini alabilmek için bu sayfadan girilmiş olan ders programını onaylamanız gerekmektedir."
+            },
+            {
+                "question": "Ders programım neden onaylanmıyor veya kırmızı gözüküyor?",
+                "answer": "Ders programı girilmediğinde sütunlar kırmızı olarak gözükür ve onaylama yapılamaz. Eğer izinden dolayı bloklanmışsa, sayfadaki 'seçili ay izin görevlendirme güncelle' butonuna basarak düzeltebilirsiniz."
+            },
+            {
+                "question": "Dersimin görevlendirmesi gözükmüyorsa ne yapmalıyım?",
+                "answer": "Dersi vermiş olduğunuz birimdeki öğrenci işleri ile görüşmeniz gerekmektedir."
+            },
+            {
+                "question": "Enstitü öğrencileri ders kayıt/ekle-sil işlemini nasıl yapar?",
+                "answer": "Ders kayıt yapmayan enstitü öğrencileri ekle-sil yapabilir. Ders kayıt veya ekle-sil işleminin danışman tarafından onaylanması öğrenci için yeterlidir."
+            },
+            {
+                "question": "Danışman onaylamazsa ne olur?",
+                "answer": "Eğer danışman onaylama yapmazsa, öğrencinin ders kayıt/ekle-sil işlemi geçersiz sayılacaktır."
+            },
+            {
+                "question": "Yanlış ders seçtiysem ne yapmalıyım?",
+                "answer": "Öğrenci yanlış ders seçtiyse, danışmanı ders kayıt/ekle-sili reddetmeli ve öğrencinin tekrar seçim yapıp onaya göndermesi gerekmektedir."
+            }
+        ]
+    },
+    "/Grade/notgoruntuleme": {
+        "ktype": "ogrenci",
+        "faqs": [
+            {
+                "question": "Ders notlarımı ve sınav tarihlerini nasıl görebilirim?",
+                "answer": "Derslerin ara sınav/final notunu, sınav tarihini ve yerini görmek istiyorsanız, dersin üzerine tıkladığınızda bu bilgileri görebilirsiniz."
+            },
+            {
+                "question": "Yaklaşan sınavlar neye göre sıralanıyor?",
+                "answer": "Yaklaşan sınavlar tarihi en yakından en uzağa şeklinde sıralanmaktadır."
+            }
+        ]
+    },
+    "/ogrenci/dishekimligiderskayit": {
+        "ktype": "ogrenci",
+        "faqs": [
+            {
+                "question": "Tıp/Diş Hekimliği/Hukuk öğrencileri ders kaydını nereden yapar?",
+                "answer": "Tıp, Diş Hekimliği ve Hukuk bölümü öğrencileri kendi bölümlerine ait dersleri bu sayfada (https://obis.pusula.pau.edu.tr/ogrenci/dishekimligiderskayit.aspx) yapmaktadır."
+            }
+        ]
+    },
+    "/Ogrenci/OgrenciDersProgrami": {
+        "ktype": "ogrenci",
+        "faqs": [
+            {
+                "question": "Ders programımı neden göremiyorum?",
+                "answer": "Eğer ders programı bu sayfada (https://obis.pusula.pau.edu.tr/Ogrenci/OgrenciDersProgrami.aspx) gözükmüyorsa, ya ders programı girilmemiştir ya da öğrenci dersi seçmemiştir. Bu durumu fakültenizle görüşmelisiniz."
+            }
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "instruction": "Not giriş sayfasında derslerin ara sınav ve final notlarının yüzdelik girişleri nasıl yapılır?",
+    "input": "",
+    "output": "Not girişleri eğitim öğretim kılavuzundan yapılmalıdır. Yüzdelik değerler oradaki kurallara uygun girilmelidir."
+}
+{
+    "instruction": "Sınav tarihi girildiği halde not girişi yapamıyorum. Neden olabilir?",
+    "input": "",
+    "output": "Sınav tarihinin saati ve tarihi gelmeden not girişi yapılamaz. Tarih ve saat geçmeden giriş denendiğinde sistem izin vermez."
+}
+{
+    "instruction": "Ara sınav notları girildikten sonra not değiştirilebilir mi?",
+    "input": "",
+    "output": "Evet, ara sınav notları girildikten sonra değiştirilebilir."
+}
+{
+    "instruction": "Final ve bütünleme notlarının onaylanmasından sonra düzeltme yapılabilir mi?",
+    "input": "",
+    "output": "Ara sınav, final ve bütünleme notlarının onaylanması durumunda sadece fakülte sekreteri tarafından düzeltme yapılabilir."
+}
