@@ -21,11 +21,6 @@ prompt_path = os.path.join(os.path.dirname(__file__), "prompt.json")
 PDF_DIR = "pdfData"
 INDEX_DIR = "indexes"
 
-# --- API Anahtarı ---
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-if not OPENROUTER_API_KEY:
-    raise ValueError("OPENROUTER_API_KEY ortam değişkeni bulunamadı. Lütfen .env dosyasını kontrol edin.")
-
 # --- Sıkça Sorulan Soruları Yükle ---
 with open(json_path, "r", encoding="utf-8") as f:
     frequent_questions = json.load(f)
@@ -48,7 +43,7 @@ app.add_middleware(
 )
 
 # --- Prompt Ayarı ---
-OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OLLAMA_URL = "http://localhost:11434/api/chat"  # Ollama'nın yerel adresi
 PROMPT_MD = ""
 
 try:
@@ -96,7 +91,7 @@ async def startup_event():
 REDIRECT_URL = "https://app.pusula.pau.edu.tr/gbs/Oneri/Talep.aspx"
 CONTINUATION_THRESHOLD = 3
 
-# --- Chat API (Streaming ve Normal JSON) ---
+# Chat API fonksiyonunuzun ilgili kısmı (düzeltilmiş)
 @app.post("/api/chat")
 async def chat(request: Request):
     data = await request.json()
@@ -121,7 +116,7 @@ async def chat(request: Request):
     if user_message == "ACTION_RESOLVED_YES":
         return JSONResponse({
             "message": {"content": "Yardımcı olabildiğime sevindim. İyi günler dilerim!", "role": "assistant"},
-            "type": "end_chat"  # end_chat yerine message kullanıldı, mesajlar silinmeyecek
+            "type": "end_chat"
         })
 
     if user_message == "ACTION_RESOLVED_NO":
@@ -167,60 +162,115 @@ async def chat(request: Request):
 
     system_message = f"{PROMPT_MD}\n\n### BAĞLAM\n{rag_context}"
     
+    # Payload ve headers burada tanımlanıyor
     payload = {
-        "model": "deepseek/deepseek-chat",
+        "model": "deepseek-r1:8b",
         "messages": [
             {"role": "system", "content": system_message},
             {"role": "user", "content": user_message}
         ],
-        "stream": True,
+        "stream": True
     }
     
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json"
     }
 
+    # Stream generator fonksiyonunu chat fonksiyonunun içinde tanımla
     async def stream_generator():
         metadata = {"type": "metadata", "sources": sources_found}
         yield f"data: {json.dumps(metadata)}\n\n"
+        
+        # Think tag durumunu takip etmek için değişkenler
+        inside_think = False
+        buffer = ""
+        think_buffer = ""
 
         try:
             async with httpx.AsyncClient(timeout=300.0) as client:
-                async with client.stream("POST", OPENROUTER_URL, json=payload, headers=headers) as response:
+                async with client.stream("POST", OLLAMA_URL, json=payload, headers=headers) as response:
                     response.raise_for_status()
                     async for line in response.aiter_lines():
-                        if line.startswith("data:"):
-                            content = line[len("data:"):]
-                            if content.strip() == "[DONE]": break
-                            try:
-                                chunk = json.loads(content)
-                                if chunk["choices"][0]["delta"].get("content"):
-                                    text_chunk = chunk["choices"][0]["delta"]["content"]
-                                    message_data = {"type": "message_chunk", "content": text_chunk}
-                                    yield f"data: {json.dumps(message_data)}\n\n"
-                                    await asyncio.sleep(0.01)
-                            except (json.JSONDecodeError, IndexError):
+                        if not line.strip():
+                            continue
+                        try:
+                            chunk = json.loads(line)
+                            message_chunk = chunk.get("message", {})
+                            text_chunk = message_chunk.get("content", "")
+                            
+                            if not text_chunk:
                                 continue
+                                
+                            # Buffer'a ekle
+                            buffer += text_chunk
+                            
+                            # Think tag kontrolü ve temizleme
+                            while buffer:
+                                if not inside_think:
+                                    # <think> tag'i arayalım
+                                    think_start = buffer.find('<think>')
+                                    if think_start != -1:
+                                        # <think> öncesindeki içeriği gönder
+                                        if think_start > 0:
+                                            clean_content = buffer[:think_start]
+                                            if clean_content:
+                                                message_data = {"type": "message_chunk", "content": clean_content}
+                                                yield f"data: {json.dumps(message_data)}\n\n"
+                                                await asyncio.sleep(0.01)
+                                        
+                                        # <think> moduna geç
+                                        inside_think = True
+                                        buffer = buffer[think_start + 7:]  # '<think>' uzunluğu
+                                        think_buffer = ""
+                                    else:
+                                        # <think> yok, tüm içeriği gönder
+                                        if buffer:
+                                            message_data = {"type": "message_chunk", "content": buffer}
+                                            yield f"data: {json.dumps(message_data)}\n\n"
+                                            await asyncio.sleep(0.01)
+                                        buffer = ""
+                                        break
+                                else:
+                                    # </think> tag'i arayalım
+                                    think_end = buffer.find('</think>')
+                                    if think_end != -1:
+                                        # Think içeriğini buffer'a ekle (göndermeyeceğiz)
+                                        think_buffer += buffer[:think_end]
+                                        
+                                        # </think> sonrasını al
+                                        buffer = buffer[think_end + 8:]  # '</think>' uzunluğu
+                                        inside_think = False
+                                        think_buffer = ""  # Think içeriğini temizle
+                                    else:
+                                        # Henüz </think> bulamadık, think_buffer'a ekle
+                                        think_buffer += buffer
+                                        buffer = ""
+                                        break
+
+                            if chunk.get("done"):
+                                # Kalan buffer'ı gönder (think tag'i dışında)
+                                if buffer and not inside_think:
+                                    message_data = {"type": "message_chunk", "content": buffer}
+                                    yield f"data: {json.dumps(message_data)}\n\n"
+                                break
+
+                        except json.JSONDecodeError:
+                            print(f"JSON Decode Hatası: {line}")
+                            continue
+                            
         except httpx.HTTPStatusError as e:
-            error_detail = ""
-            if e.response:
-                try:
-                    error_body = await e.response.aread()
-                    error_detail = error_body.decode("utf-8", errors="ignore")
-                except Exception:
-                    error_detail = str(e)
-            else:
-                error_detail = str(e)
-            error_message = {"type": "error", "detail": f"API hatası: {error_detail}"}
+            error_detail = e.response.text if e.response else str(e)
+            error_message = {"type": "error", "detail": f"API Hatası: {error_detail}"}
             yield f"data: {json.dumps(error_message)}\n\n"
         except Exception as e:
-            error_message = {"type": "error", "detail": f"Sunucu hatası: {str(e)}"}
+            error_message = {"type": "error", "detail": f"Sunucu Hatası: {str(e)}"}
             yield f"data: {json.dumps(error_message)}\n\n"
         finally:
+            # Akış sonlandığında done mesajı gönder
             finally_data = {"type": "done"}
             yield f"data: {json.dumps(finally_data)}\n\n"
 
+    # Normal stream generator'ı çağır
     return StreamingResponse(stream_generator(), media_type="text/event-stream")
 
 # --- SSS Getir ---
